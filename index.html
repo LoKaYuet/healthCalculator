@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthCal — Home</title>
+  <link rel="stylesheet" href="css/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>HealthCal</h1>
+    </div>
+    <nav class="nav">
+      <a class="button" href="index.html">Home</a>
+      <a class="button" href="record.html">Record</a>
+      <a class="button" href="calculator.html">Calculator</a>
+      <a class="button" href="externalref.html">External References</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h2>Record daily stuff for both physical and mental health.</h2>
+        <p>Personalize your health journey with our easy-to-use recording tools.</p>
+        <div class="cta-row">
+          <a class="cta primary" href="record.html">Record</a>
+          <a class="cta primary" href="calculator.html">Calculator</a>
+        </div>
+      </div>
+      <div class="hero-right">
+
+        <div class="score-card">
+          <h3>Daily to-dos</h3>
+          <table class="leaderboard-table todo-table" aria-label="Daily to-do tasks">
+            <thead><tr><th scope="col">Task</th><th scope="col">Done</th></tr></thead>
+            <tbody id="todo-task-body"></tbody>
+          </table>
+          <button class="cta primary" id="submit-todos" type="button">Submit today's tasks</button>
+          <p id="todo-submit-status" role="status" aria-live="polite"></p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="leaderboard-preview">
+      <h3>Leaderboard — highest daily task done</h3>
+      <p>Compete with your past self</p>
+      <table class="leaderboard-table">
+        <thead><tr><th>#</th><th>Date</th><th>Task completed</th></tr></thead>
+        <tbody id="leaderboard-body"></tbody>
+      </table>
+      <div class="leaderboard-actions">
+        <button class="cta" id="clear-leaderboard" type="button">Clear past records</button>
+        <a href="leaderboard.html" class="cta">Full Leaderboard</a>
+      </div>
+      <p id="leaderboard-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="js/daily-task-record.js"></script>
+</body>
+</html>
