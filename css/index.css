@@ -40,7 +40,8 @@ header{
   border-radius:8px;
   background:transparent;
 }
-.nav .button:hover{background:rgba(47,158,68,0.08)}
+.nav .button:hover{background:rgba(47, 65, 158, 0.08)}
+button{cursor: cell;}
 
 .container{max-width:1100px;margin:28px auto;padding:0 18px}
 
@@ -67,11 +68,11 @@ header{
 .score-top{font-size:12px;color:var(--muted)}
 .score-value{font-size:20px;font-weight:700}
 
-.leaderboard-preview{margin-top:22px;background:var(--card);padding:16px;border-radius:12px}
-.leaderboard-table{width:100%;border-collapse:collapse}
-.leaderboard-table th, .leaderboard-table td{padding:8px 10px;text-align:left;border-bottom:1px solid rgba(0,0,0,0.04)}
-.leaderboard-table th{color:var(--muted);font-weight:600}
+table{width:100%;border-collapse:collapse}
+table th, table td{padding:8px 10px;text-align:left;border-bottom:1px solid rgba(0,0,0,0.04)}
+table th{color:var(--muted);font-weight:600}
 
+.leaderboard-preview{margin-top:22px;background:var(--card);padding:16px;border-radius:12px}
 .leaderboard-actions{margin-top:10px;text-align:right}
 
 .about{margin:20px 0;padding:14px;background:rgba(255,255,255,0.5);border-radius:10px;color:var(--muted)}

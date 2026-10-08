@@ -14,7 +14,7 @@
     </div>
     <nav class="nav">
       <a class="button" href="index.html">Home</a>
-      <a class="button" href="record.html">Record</a>
+      <a class="button" href="record.html">Records</a>
       <a class="button" href="calculator.html">Calculator</a>
       <a class="button" href="externalref.html">External References</a>
     </nav>
@@ -23,10 +23,10 @@
   <main class="container">
     <section class="hero">
       <div class="hero-left">
-        <h2>Record daily stuff for both physical and mental health.</h2>
+        <h2>Record daily stuff for your general health.</h2>
         <p>Personalize your health journey with our easy-to-use recording tools.</p>
         <div class="cta-row">
-          <a class="cta primary" href="record.html">Record</a>
+          <a class="cta primary" href="record.html">All Records</a>
           <a class="cta primary" href="calculator.html">Calculator</a>
         </div>
       </div>
@@ -34,11 +34,11 @@
 
         <div class="score-card">
           <h3>Daily to-dos</h3>
-          <table class="leaderboard-table todo-table" aria-label="Daily to-do tasks">
+          <table class="todo-table" aria-label="Daily to-do tasks">
             <thead><tr><th scope="col">Task</th><th scope="col">Done</th></tr></thead>
             <tbody id="todo-task-body"></tbody>
           </table>
-          <button class="cta primary" id="submit-todos" type="button">Submit today's tasks</button>
+          <button class="cta primary" id="submit-todos">Submit today's tasks</button>
           <p id="todo-submit-status" role="status" aria-live="polite"></p>
         </div>
 
@@ -48,15 +48,13 @@
     <section class="leaderboard-preview">
       <h3>Leaderboard — highest daily task done</h3>
       <p>Compete with your past self</p>
-      <table class="leaderboard-table">
+      <table>
         <thead><tr><th>#</th><th>Date</th><th>Task completed</th></tr></thead>
         <tbody id="leaderboard-body"></tbody>
       </table>
       <div class="leaderboard-actions">
-        <button class="cta" id="clear-leaderboard" type="button">Clear past records</button>
-        <a href="leaderboard.html" class="cta">Full Leaderboard</a>
+        <a class="cta" href="record.html">All Records</a>
       </div>
-      <p id="leaderboard-status" role="status" aria-live="polite"></p>
     </section>
   </main>
 

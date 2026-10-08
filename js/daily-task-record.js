@@ -10,7 +10,6 @@
     const submitButton = document.getElementById('submit-todos');
     const clearButton = document.getElementById('clear-leaderboard');
     const submitStatus = document.getElementById('todo-submit-status');
-    const leaderboardStatus = document.getElementById('leaderboard-status');
     const leaderboardStorageKey = 'healthcal_daily_leaderboard';
 
     function getLeaderboardRecords() {
@@ -78,54 +77,60 @@
         }));
     }
 
-    taskBody.addEventListener('change', event => {
-        if (!(event.target instanceof HTMLInputElement)) return;
-        const task = dailyTasks.find(item => item.id === event.target.dataset.taskId);
-        if (!task) return;
-        task.completed = event.target.checked;
-        renderDailyTasks();
-    });
+    if (taskBody) {
+        taskBody.addEventListener('change', event => {
+            if (!(event.target instanceof HTMLInputElement)) return;
+            const task = dailyTasks.find(item => item.id === event.target.dataset.taskId);
+            if (!task) return;
+            task.completed = event.target.checked;
+            renderDailyTasks();
+        })
+    };
     renderDailyTasks();
 
-    submitButton.addEventListener('click', () => {
-        const records = getLeaderboardRecords();
-        const completedTasks = dailyTasks.filter(task => task.completed).map(task => task.title);
-        const today = getLocalDate();
-        const record = {
-            date: today,
-            completedCount: completedTasks.length,
-            totalCount: dailyTasks.length,
-            tasks: completedTasks
-        };
-        const existingRecordIndex = records.findIndex(item => item.date === today);
+    if (submitButton) {
+        submitButton.addEventListener('click', () => {
+            const records = getLeaderboardRecords();
+            const completedTasks = dailyTasks.filter(task => task.completed).map(task => task.title);
+            const today = getLocalDate();
+            const record = {
+                date: today,
+                completedCount: completedTasks.length,
+                totalCount: dailyTasks.length,
+                tasks: completedTasks
+            };
+            const existingRecordIndex = records.findIndex(item => item.date === today);
 
-        if (existingRecordIndex >= 0) records[existingRecordIndex] = record;
-        else records.push(record);
+            if (existingRecordIndex >= 0) records[existingRecordIndex] = record;
+            else records.push(record);
 
-        try {
-            localStorage.setItem(leaderboardStorageKey, JSON.stringify(records));
-            renderLeaderboard();
-            submitStatus.textContent = "Today's tasks were added to the leaderboard.";
-        } catch (error) {
-            submitStatus.textContent = 'Unable to save your tasks in this browser.';
-        }
-    });
+            try {
+                localStorage.setItem(leaderboardStorageKey, JSON.stringify(records));
+                renderLeaderboard();
+                submitStatus.textContent = "Today's tasks were added to the leaderboard.";
+            } catch (error) {
+                submitStatus.textContent = 'Unable to save your tasks in this browser.';
+            }
+        })
+}   ;
 
-    clearButton.addEventListener('click', () => {
-        const confirmed = window.confirm('Clear all past daily task records from the leaderboard?');
-        if (!confirmed) return;
+    if (clearButton) {
+        clearButton.addEventListener('click', () => {
+            const confirmed = window.confirm('Clear all past daily task records from the leaderboard?');
+            if (!confirmed) return;
 
-        const doubleConfirmed = window.confirm('Are you sure? This action cannot be undone.');
-        if (!doubleConfirmed) return;
+            const doubleConfirmed = window.confirm('Are you sure? This action cannot be undone.');
+            if (!doubleConfirmed) return;
 
-        try {
-            localStorage.removeItem(leaderboardStorageKey);
-            renderLeaderboard();
-            leaderboardStatus.textContent = 'All past daily task records have been cleared.';
-        } catch (error) {
-            leaderboardStatus.textContent = 'Unable to clear saved records in this browser.';
-        }
-    });
+            try {
+                localStorage.removeItem(leaderboardStorageKey);
+                renderLeaderboard();
+                leaderboardStatus.textContent = 'All past daily task records have been cleared.';
+            } catch (error) {
+                leaderboardStatus.textContent = 'Unable to clear saved records in this browser.';
+            }
+        });
+    }
     renderLeaderboard();
     //end
     })();
