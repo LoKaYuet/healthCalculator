@@ -15,7 +15,7 @@ This is the demo version, any data entered will only be stored on the client loc
 
 ## upcoming functions
 
-**[mix] money manager + self-reward**:
+**[mix] spending planner + self-reward**:
 - manage your money and prompt self-reward when achieving goals
 
 **Body muscle tracker&calculator**:

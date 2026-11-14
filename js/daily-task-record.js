@@ -10,7 +10,39 @@
     const submitButton = document.getElementById('submit-todos');
     const clearButton = document.getElementById('clear-leaderboard');
     const submitStatus = document.getElementById('todo-submit-status');
+    const taskInput = document.getElementById('new-task-input');
+    const addTaskButton = document.getElementById('add-task-btn');
     const leaderboardStorageKey = 'healthcal_daily_leaderboard';
+
+    function createTaskId(title) {
+        return title
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '') || `task-${Date.now()}`;
+    }
+
+    function addNewTask() {
+        if (!taskInput || !taskInput.value.trim()) return;
+
+        const title = taskInput.value.trim();
+        const duplicate = dailyTasks.some(task => task.title.toLowerCase() === title.toLowerCase());
+        if (duplicate) {
+            taskInput.value = '';
+            taskInput.focus();
+            return;
+        }
+
+        dailyTasks.push({
+            id: createTaskId(title),
+            title,
+            completed: false
+        });
+
+        taskInput.value = '';
+        renderDailyTasks();
+        taskInput.focus();
+    }
 
     function getLeaderboardRecords() {
         try {
@@ -22,6 +54,8 @@
     }
 
     function renderLeaderboard() {
+        if (!leaderboardBody) return;
+
         const records = getLeaderboardRecords().sort((a, b) =>
         b.completedCount - a.completedCount || b.date.localeCompare(a.date)
         );
@@ -60,19 +94,46 @@
 
     function renderDailyTasks() {
         if (!taskBody) return;
+
+        if (!dailyTasks.length) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 3;
+            cell.textContent = 'No tasks yet. Add one above.';
+            row.append(cell);
+            taskBody.replaceChildren(row);
+            return;
+        }
+
         taskBody.replaceChildren(...dailyTasks.map(task => {
             const row = document.createElement('tr');
             const titleCell = document.createElement('td');
             const checkboxCell = document.createElement('td');
+            const actionsCell = document.createElement('td');
             const checkbox = document.createElement('input');
+            const removeButton = document.createElement('button');
 
             titleCell.textContent = task.title;
             checkbox.type = 'checkbox';
             checkbox.checked = task.completed;
             checkbox.dataset.taskId = task.id;
             checkbox.setAttribute('aria-label', `Complete ${task.title}`);
+
+            removeButton.type = 'button';
+            removeButton.textContent = 'Remove';
+            removeButton.className = 'task-remove-button';
+            removeButton.setAttribute('aria-label', `Remove ${task.title}`);
+            removeButton.addEventListener('click', () => {
+                const index = dailyTasks.findIndex(item => item.id === task.id);
+                if (index >= 0) {
+                    dailyTasks.splice(index, 1);
+                    renderDailyTasks();
+                }
+            });
+
             checkboxCell.append(checkbox);
-            row.append(titleCell, checkboxCell);
+            actionsCell.append(removeButton);
+            row.append(titleCell, checkboxCell, actionsCell);
             return row;
         }));
     }
@@ -86,6 +147,20 @@
             renderDailyTasks();
         })
     };
+
+    if (addTaskButton) {
+        addTaskButton.addEventListener('click', addNewTask);
+    }
+
+    if (taskInput) {
+        taskInput.addEventListener('keydown', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addNewTask();
+            }
+        });
+    }
+
     renderDailyTasks();
 
     if (submitButton) {
@@ -107,9 +182,13 @@
             try {
                 localStorage.setItem(leaderboardStorageKey, JSON.stringify(records));
                 renderLeaderboard();
-                submitStatus.textContent = "Today's tasks were added to the leaderboard.";
+                if (submitStatus) {
+                    submitStatus.textContent = "Today's tasks were added to the leaderboard.";
+                }
             } catch (error) {
-                submitStatus.textContent = 'Unable to save your tasks in this browser.';
+                if (submitStatus) {
+                    submitStatus.textContent = 'Unable to save your tasks in this browser.';
+                }
             }
         })
 }   ;
