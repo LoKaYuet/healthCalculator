@@ -78,7 +78,12 @@
 
             rankCell.textContent = String(index + 1);
             dateCell.textContent = record.date;
-            tasksCell.textContent = `${record.completedCount}/${record.totalCount}: ${record.tasks.join(', ') || 'No tasks completed'}`;
+            const tasks = Array.isArray(record.tasks) ? record.tasks : [];
+            const exercises = Array.isArray(record.exercises) ? record.exercises : [];
+            const taskSummary = `${record.completedCount}/${record.totalCount}: ${tasks.join(', ') || 'No tasks completed'}`;
+            tasksCell.textContent = exercises.length
+                ? `${taskSummary}; Exercises: ${exercises.join(', ')}`
+                : taskSummary;
             row.append(rankCell, dateCell, tasksCell);
             return row;
         }));
@@ -168,13 +173,16 @@
             const records = getLeaderboardRecords();
             const completedTasks = dailyTasks.filter(task => task.completed).map(task => task.title);
             const today = getLocalDate();
+            const existingRecordIndex = records.findIndex(item => item.date === today);
             const record = {
                 date: today,
                 completedCount: completedTasks.length,
                 totalCount: dailyTasks.length,
-                tasks: completedTasks
+                tasks: completedTasks,
+                exercises: existingRecordIndex >= 0 && Array.isArray(records[existingRecordIndex].exercises)
+                    ? records[existingRecordIndex].exercises
+                    : []
             };
-            const existingRecordIndex = records.findIndex(item => item.date === today);
 
             if (existingRecordIndex >= 0) records[existingRecordIndex] = record;
             else records.push(record);

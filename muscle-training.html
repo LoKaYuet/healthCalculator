@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HealthCal — Daily To-dos</title>
+  <title>HealthCal — Muscle Training</title>
   <link rel="stylesheet" href="css/index.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
 </head>
@@ -21,47 +21,42 @@
   <main class="container">
     <section class="hero">
       <div class="hero-left">
-        <h2>Daily to-dos</h2>
-        <p>Track your healthy daily habits and save each finished checklist to the leaderboard.</p>
+        <h2>Muscle training</h2>
+        <p>Choose a muscle group to get two exercise recommendations, then save the exercises you complete.</p>
         <div class="cta-row">
           <a class="cta primary" href="index.html">Back to Home</a>
           <a class="cta" href="all-page.html">All tools</a>
         </div>
       </div>
-
-      <div class="hero-right">
-        <div class="score-card">
-          <h3>Daily to-dos</h3>
-
-          <div class="task-manager" aria-label="Manage daily tasks">
-            <label class="small" for="new-task-input">Add new task</label>
-            <div class="task-manager-row">
-              <input id="new-task-input" type="text" maxlength="80" placeholder="Type here" aria-label="New daily task">
-              <button type="button" class="cta small" id="add-task-btn">Add</button>
-            </div>
-          </div>
-
-          <table class="todo-table" aria-label="Daily to-do tasks">
-            <thead><tr><th scope="col">Task</th><th scope="col">Done</th><th scope="col">Action</th></tr></thead>
-            <tbody id="todo-task-body"></tbody>
-          </table>
-          <button class="cta primary" id="submit-todos">Submit today's tasks</button>
-          <p id="todo-submit-status" role="status" aria-live="polite"></p>
-        </div>
-      </div>
-      
     </section>
 
     <section class="leaderboard-preview">
-      <h3>Leaderboard — highest daily task done</h3>
-      <p>Compete with your past self</p>
-      <table>
-        <thead><tr><th>#</th><th>Date</th><th>Task completed</th></tr></thead>
-        <tbody id="leaderboard-body"></tbody>
+      <h3>Choose a muscle group</h3>
+      <form id="muscle-training-form">
+        <label for="muscle-group">Muscle to train</label>
+        <select id="muscle-group" name="muscle-group" required>
+          <option value="">Select a muscle</option>
+          <option value="chest">Chest</option>
+          <option value="leg">Leg</option>
+          <option value="biceps">Biceps</option>
+        </select>
+        <button class="cta primary" type="submit">Get recommendations</button>
+      </form>
+
+      <h3 id="recommendation-heading">Exercise recommendations</h3>
+      <table aria-label="Recommended exercises">
+        <thead>
+          <tr><th scope="col">Exercise</th><th scope="col">Completed</th></tr>
+        </thead>
+        <tbody id="exercise-table-body">
+          <tr><td colspan="2">Choose a muscle group to see recommendations.</td></tr>
+        </tbody>
       </table>
+      <button class="cta primary" id="submit-exercises" type="button" disabled>Save completed exercises</button>
+      <p id="exercise-submit-status" role="status" aria-live="polite"></p>
     </section>
   </main>
 
-  <script src="js/daily-task-record.js"></script>
+  <script src="js/muscle-training.js"></script>
 </body>
 </html>
